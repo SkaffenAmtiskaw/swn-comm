@@ -7,8 +7,10 @@ const Home = () => {
   const { user } = useContext(UserContext);
 
   if (!user) {
-    console.log('redirect');
+    // TODO: Add state here so we can replace history at some point.
     return (<Redirect to="/auth" />)
+  } else if (user === 'sarah') {
+    return (<Redirect to="/master" />)
   }
 
   return (
