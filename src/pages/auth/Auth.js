@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Input } from '@wedgekit/core';
 
 import { UserContext } from '../../context';
+import { db } from '../../firebase';
 
 const Auth = ({ history }) => {
   const [input, setInput] = useState('');
@@ -10,9 +11,18 @@ const Auth = ({ history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    user.setUser(input);
-    // TODO: Change this to a replace  when history state  is added.
-    history.push('/');
+
+    db
+      .collection('users')
+      .where('name', '==', input)
+      .get()
+      .then((snapshot) => {
+        user.setUser(snapshot.docs[0].data());
+        // TODO: Change this to a replace  when history state  is added.
+        history.push('/');
+      })
+      .catch((error) => console.log('User not found', error));
+
   };
 
   return (

@@ -12,7 +12,7 @@ function App() {
     <User>
       <Router>
         <Switch>
-          <Route path="/auth" render={Auth}>
+          <Route path="/auth">
             <Auth />
           </Route>
           <Route path="/master">
