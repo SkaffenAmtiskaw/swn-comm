@@ -2,6 +2,7 @@ import React, { useContext } from  'react';
 import { Redirect } from 'react-router-dom';
 
 import { UserContext } from '../../context'
+import { Page } from '../../styled';
 
 const Home = () => {
   const { user } = useContext(UserContext);
@@ -16,7 +17,9 @@ const Home = () => {
   }
 
   return (
-    <div>Home Content Here</div>
+    <Page>
+      <h1>Home</h1>
+    </Page>
   );
 };
 
