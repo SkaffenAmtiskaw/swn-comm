@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from '@wedgekit/core';
+import uuid from 'uuid/v4';
 
 import { db } from '../../firebase';
 import { Page } from '../../styled';
@@ -23,14 +24,18 @@ const Master = ()  => {
     e.preventDefault();
 
     if(player) {
+      const id = uuid();
+
       const newPlayer = {
         name: player,
         gm: false,
+        id,
       };
 
       db
         .collection('users')
-        .add(newPlayer)
+        .doc(id)
+        .set(newPlayer)
         .then((ref) =>  {
           setPlayers([...players, newPlayer]);
           setPlayer('');
