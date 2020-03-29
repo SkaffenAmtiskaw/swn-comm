@@ -1,24 +1,15 @@
 import React, { useState } from 'react';
 import { Input } from '@wedgekit/core';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 
 import { db } from '../../firebase';
 import { Page } from '../../styled';
 import { Grid } from './styled';
+import Player from './player';
+import withPlayerList from './withPlayerList';
 
-const Master = ()  => {
+const Master = ({ players })  => {
   const [player, setPlayer] = useState('');
-  const [players, setPlayers]  = useState([]);
-
-  db.collection('users')
-    .where('gm', '==', false)
-    .get()
-    .then((snapshot)  => {
-      setPlayers(snapshot.docs.map(doc => doc.data()));
-    })
-    .catch((err) => {
-      console.log('something has gone wrong! ',  err);
-    });
 
   const addPlayer = (e) => {
     e.preventDefault();
@@ -37,7 +28,6 @@ const Master = ()  => {
         .doc(id)
         .set(newPlayer)
         .then((ref) =>  {
-          setPlayers([...players, newPlayer]);
           setPlayer('');
         })
         .catch((error) => console.log(error));
@@ -53,9 +43,7 @@ const Master = ()  => {
       <Grid>
         {
           players.map(doc => (
-            <div key={doc.name} style={{ padding: '12px', border: '1px solid gray', textAlign: 'center' }}>
-              {doc.name}
-            </div>
+            <Player key={doc.id} player={doc} />
           ))
         }
       </Grid>
@@ -63,4 +51,4 @@ const Master = ()  => {
   );
 };
 
-export default Master;
+export default withPlayerList(Master);
