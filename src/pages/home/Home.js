@@ -1,24 +1,32 @@
 import React, { useContext } from  'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { Button } from '@wedgekit/core';
 
 import { UserContext } from '../../context'
 import { Page } from '../../styled';
 
+import Master from '../master';
+import Dashboard from '../dashboard';
+
 const Home = () => {
-  const { user } = useContext(UserContext);
-
-
+  const { user, setUser } = useContext(UserContext);
 
   if (!user) {
     // TODO: Add state here so we can replace history at some point.
     return (<Redirect to="/auth" />)
-  } else if (user.gm) {
-    return (<Redirect to="/master" />)
   }
 
   return (
     <Page>
-      <h1>Home</h1>
+      <Button onClick={() => setUser()}>Log Out</Button>
+      <Switch>
+        <Route path="/master">
+          <Master />
+        </Route>
+        <Route path="*">
+          <Dashboard />
+        </Route>
+      </Switch>
     </Page>
   );
 };

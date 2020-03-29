@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Auth from './pages/auth';
 import Home from './pages/home';
-import Master from './pages/master';
 
 import { User } from './context';
 
@@ -15,10 +14,7 @@ function App() {
           <Route path="/auth">
             <Auth />
           </Route>
-          <Route path="/master">
-            <Master />
-          </Route>
-          <Route path="/">
+          <Route path="*">
             <Home />
           </Route>
         </Switch>
